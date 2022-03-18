@@ -1,5 +1,7 @@
 package com.epam.izh.rd.online.service;
 
+import java.lang.reflect.Array;
+
 public class SimpleMathService implements MathService {
 
     /**
@@ -12,8 +14,11 @@ public class SimpleMathService implements MathService {
      * Например для (3, 1) метод должен вернуть 1;
      */
     @Override
-    public int compare(int value1, int value2) {
-        return -2;
+    public int compare(int value1, int value2)
+    {
+        if (value1==value2) return 0;
+        if (value1<value2) return -1;
+        return 1;
     }
 
     /**
@@ -22,7 +27,8 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        if (value1>value2) return value1;
+        return value2;
     }
 
     /**
@@ -31,7 +37,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > max) max = values[i];
+        }
+        return max;
     }
 
     /**
@@ -40,7 +50,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        int sum = 0;
+        for (int i =0; i < values.length; i++) {
+            sum = sum + values[i];
+        }
+        return sum;
     }
 
     /**
@@ -49,7 +63,20 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        int[] arr = new int[values.length];
+        int arrIndex = 0;
+        for (int i=0; i < values.length; i++) {
+           if (values[i]%2 == 0) {
+               arr[arrIndex] = values[i];
+               arrIndex++;
+           }
+        }
+        int[] arrOut = new int[arrIndex];
+        for (int i=0; i < arrIndex; i++) {
+            arrOut[i] = arr[i];
+        }
+
+        return arrOut;
     }
 
     /**
@@ -59,7 +86,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+        int result = 1;
+        for (int i = 2; i <=initialVal; i ++){
+            result = result*i;
+        }
+        return result;
     }
 
     /**
@@ -74,7 +105,16 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
+        if (number == 0)
+            return 0;
+        int a = 0;
+        int b = 1;
+        for (int i = 0; i<number-1; i++) {
+            int fib = a+b;
+            a = b;
+            b = fib;
+        }
+        return b;
     }
 
     /**
@@ -83,7 +123,20 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        boolean unsorted = true;
+        int temp;
+        while (unsorted) {
+            unsorted = false;
+            for (int i = 0; i < values.length - 1; i++) {
+                if (values[i] > values[i + 1]) {
+                    temp = values[i];
+                    values[i] = values[i + 1];
+                    values[i + 1] = temp;
+                    unsorted = true;
+                }
+            }
+        }
+    return values;
     }
 
     /**
@@ -94,7 +147,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
-        return false;
+        for (int i=2; i < number; i++) {
+            if (number % i == 0)
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -104,6 +161,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        int[] arr = new int[values.length];
+        int arrIndex = values.length-1;
+        for (int i=0; i < values.length; i++) {
+            arr[arrIndex] = values[i];
+        arrIndex--;
+        }
+        return arr;
+
     }
 }
